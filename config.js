@@ -1,7 +1,7 @@
 const config = {
   "ownerID": "",
   "token": process.env.TOKEN,
-  "prefix": "rtest."
+  "prefix": "t."
 };
 
 module.exports = config;
