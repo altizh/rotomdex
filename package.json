@@ -1,0 +1,24 @@
+{
+  "name": "rotomdex",
+  "version": "0.0.1",
+  "description": "Pokémon information from your friendly Rotom Dex!",
+  "main": "rotomdex.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node rotomdex.js"
+  },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "*";
+  },
+  "author": "kudda",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "discord.js": "^11.3.2",
+    "enmap": "^2.1.0",
+    "enmap-sqlite": "^2.0.0",
+    "moment": "^2.22.0",
+    "npm": "^5.8.0"
+  }
+}
