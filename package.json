@@ -9,7 +9,7 @@
   },
   "engines": {
     "node": "8.11.1",
-    "npm": "*";
+    "npm": "*"
   },
   "author": "kudda",
   "license": "MIT",
