@@ -16,7 +16,6 @@ client.config = require("./config.js");
 client.logger = require("./util/Logger");
 
 require("./modules/functions.js")(client);
-require("./modules/dexcode.js")(client);
 
 client.commands = new Enmap();
 client.aliases = new Enmap();
