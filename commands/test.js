@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, [action, key, ...value]) => {
 
-  if (!message.member.hasPermission("MANAGE_SERVER")) return message.reply("you aren't authorizzzed to change the prefix!");
+  if (!message.member.hasPermission("MANAGE_GUILD")) return message.reply("you aren't authorizzzed to change the prefix!");
 
   const settings = message.settings;
   const overrides = client.settings.get(message.guild.id);
