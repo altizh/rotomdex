@@ -4,7 +4,7 @@ exports.run = async (client, message, args) => {
 
   let search = args.join(" ").toLowerCase();
   if (args.length == 1) {
-    args = search.split(/\/+/g);
+    args = search.split(/[\/, -]+/g);
   }
 
   // arrays for each type effectiveness category

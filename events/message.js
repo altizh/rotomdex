@@ -1,9 +1,10 @@
 exports.run = (client, message) => {
 
   if (message.author.bot) return;
-  if (message.content.indexOf(client.config.prefix) !== 0) return;
+  const settings = message.settings = client.getGuildSettings(message.guild);
+  if (message.content.indexOf(settings.prefix) !== 0) return;
 
-  const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+  const args = message.content.slice(settings.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
 
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));

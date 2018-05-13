@@ -1,12 +1,24 @@
 module.exports = (client) => {
 
-  client.awaitReply = async (msg, question, limit = 60000) => {
+  client.getGuildSettings = (guild) => {
+    const def = client.config.defaultSettings;
+    if (!guild) return def;
+    const returns = {};
+    const overrides = client.settings.get(guild.id) || {};
+    for (const key in def) {
+      returns[key] = overrides[key] || def[key];
+    }
+    return returns;
+  };
+
+  client.awaitReply = async (msg, question, limit = 30000) => {
     const filter = m => m.author.id === msg.author.id;
     await msg.channel.send(question);
     try {
       const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
       return collected.first().content;
     } catch (e) {
+      return "timeout";
       return false;
     }
   };

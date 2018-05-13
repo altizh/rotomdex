@@ -1,5 +1,6 @@
 exports.run = async (client, message, args) => {// eslint-disable-line no-unused-vars
-  if (!args || args.length < 1) return message.reply("Must provide a command to reload. Derp.");
+  if (message.author.id !== client.config.ownerID) return;
+  if (!args || args.length < 1) return message.reply("you didn't say what to reload!");
 
   let response = await client.unloadCommand(args[0]);
   if (response) return message.reply(`Error Unloading: ${response}`);
@@ -7,7 +8,7 @@ exports.run = async (client, message, args) => {// eslint-disable-line no-unused
   response = client.loadCommand(args[0]);
   if (response) return message.reply(`Error Loading: ${response}`);
 
-  message.reply(`Transmitting data... Zz...zzt... ... ... \`${args[0]}\` has been reloaded!`);
+  message.reply(`transmitting data... Zz...zzt... ... ... \`${args[0]}\` has been reloaded!`);
 };
 
 exports.conf = {
@@ -18,6 +19,6 @@ exports.conf = {
 exports.help = {
   name: "reload",
   category: "System",
-  description: "Reloads a command that\"s been modified.",
+  description: "Reloads a command that has been modified.",
   usage: "reload [command]"
 };

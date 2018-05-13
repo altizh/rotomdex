@@ -8,17 +8,16 @@
     "start": "node rotomdex.js"
   },
   "engines": {
-    "node": "8.11.1",
-    "npm": "*"
+    "node": "8.11.1"
   },
   "author": "kudda",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "chalk": "^2.3.2",
+    "chalk": "^2.4.1",
     "discord.js": "^11.3.2",
-    "enmap": "^2.1.0",
+    "enmap": "^2.2.1",
     "enmap-sqlite": "^2.0.0",
-    "moment": "^2.22.0",
+    "moment": "^2.22.1",
     "npm": "^5.8.0"
   }
 }

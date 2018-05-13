@@ -16,14 +16,17 @@ client.config = require("./config.js");
 client.logger = require("./util/Logger");
 
 require("./modules/functions.js")(client);
+require("./modules/dexcode.js")(client);
 
 client.commands = new Enmap();
 client.aliases = new Enmap();
 client.test = new Enmap({provider: new Provider({name: "test"})});
+client.settings = new Enmap({provider: new Provider({name: "settings"})});
+client.script = new Enmap ({provider: new Provider({name: "script"})});
 client.pokedex_lookup = new Enmap({provider: new Provider({name: "pokedex_lookup"})});
-client.abilitydex_lookup = new Enmap({provider: new Provider({name: "abilitydex_lookup"})});
 client.pokedex = new Enmap({provider: new Provider({name: "pokedex"})});
 client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
+client.abilitydex_lookup = new Enmap({provider: new Provider({name: "abilitydex_lookup"})});
 client.abilitydex = new Enmap({provider: new Provider({name: "abilitydex"})});
 
 const init = async () => {
