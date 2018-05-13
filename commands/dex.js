@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const Dictionary = require("meant")
 
 exports.run = async (client, message, args, shiny) => {
 
@@ -29,30 +28,8 @@ exports.run = async (client, message, args, shiny) => {
 
   // if the name is not a real pokemon,
   if (!pkmn) {
-    // basically a "did you mean" implementation
-    const result = Dictionary(search, client.pokedex_lookup.keyArray());
-    client.logger.spellcheck("--------------")
-    client.logger.spellcheck("User typed: " + search);
-    client.logger.spellcheck("Suggested result: " + result);
-    // if they typed gibberish, odds are there are no results
-    if (result.length == 0) {
-      message.channel.send(`${emoji} Zzzzzrt? I can't find that Pokémon! Did you spell it correctly?`);
-      return;
-    }
-    // if the user was close, the bot will ask if the user meant the suggested pokemon
-    else {
-      // the bot will wait for a y/n response so the user doesn't have to search again if the bot guessed correctly
-      const response = await client.awaitReply(message, `${emoji} Zzzzzrt? I can't find that Pokémon! Were you looking for \`${client.pokedex.getProp(client.pokedex_lookup.get(result[0]),"name")}\`?`);
-      if (["y", "yes"].includes(response.toLowerCase())) {
-        pkmn = client.pokedex_lookup.get(result[0]);
-      }
-      // if the user says no, then the bot will exit and the user unfortunately has to search again
-      else if (["n","no"].includes(response.toLowerCase())) {
-        message.reply("OK, just let me know which Pokémon you're looking for!");
-        return;
-      }
-      else return;
-    }
+    pkmn = await client.spellCheck(message, search, client.pokedex, client.pokedex_lookup, "Pokémon");
+    if(!pkmn) return;
   }
 
   // pkmn has to be a valid key now

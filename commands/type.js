@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const Dictionary = require("meant")
 
 exports.run = async (client, message, args) => {
 
@@ -29,35 +30,46 @@ exports.run = async (client, message, args) => {
   let pkmn = client.pokedex_lookup.get(search);
   let t1 = client.typedex.get(args[0].toLowerCase());
   let t2 = t1;
-  if (args.length == 2) {
+  if (args.length >= 2) {
     t2 = client.typedex.get(args[1].toLowerCase());
   }
 
   // these if/else if should catch every input the user sends
-  // if the user sends more than 2 arguments and it isn't a pokémon, throw error
-  if (args.length > 2 && !pkmn) {
-    message.reply("Zrt? Please tell me up to two types or a Pokémon!");
+  // if the user sends more than 2 valid types, then the bot will highlight "up to two types"
+  if (args.length > 2 && t1 && t2) {
+    message.channel.send(`Zrt? Please tell me **up to** two types **or** a Pokémon!`);
     return;
   }
+  // if one type is correct and the other is incorrect or "none", then the bot will point out where the error is
+  else if ((t1 && (!t2 || (args.length >= 2 && args[1].toLowerCase() == "none"))) || ((!t1 || args[0].toLowerCase() == "none") && t2)) {
+    // if the user sends more than 2 valid types, then the bot will highlight "up to two types"
+    if (args.length > 2) message.channel.send(`Zrt? Please tell me **up to** two types **or** a Pokémon!`);
+    // if the first type is invalid
+    else if (!t1 || args[0].toLowerCase() == "none") message.channel.send(`Zrt? **${args[0]}** izzz not a type!`);
+    // if the second type is invalid
+    else message.channel.send(`Zrt? **${args[1]}** izzz not a type!`);
+    return;
+  }
+  // if both types are incorrect and it isn't a pokemon, we can see if the user made a typo when typing a pokemon name
+  else if (!pkmn && (!t1 || !t2)) {
+    const result = Dictionary(search, client.pokedex_lookup.keyArray());
+    if (result.length == 0) {
+      message.channel.send(`Zrt? Please tell me **up to** two types **or** a Pokémon!`);
+      return;
+    }
+    else {
+      pkmn = await client.spellCheck(message, search, client.pokedex, client.pokedex_lookup, "Pokémon's type");
+      if(!pkmn) return;
+    }
+  }
   // if it is a pokemon, then pull the typing from pokedex table
-  else if (pkmn) {
+  if (pkmn) {
     let dex = client.pokedex.get(pkmn);
     args = [`${dex.type1}`,`${dex.type2}`];
     title = `—\n**${dex.name}** - ${dex.type}`;
-    //defense.setImage(`https://play.pokemonshowdown.com/sprites/xyani/${dex.gif_id}.gif`);
     defense.addField(`#${dex.dex_entry.dex_num} - ${dex.name}`,`${dex.type}\n—`);
     defense.attachFile(`./assets/sprites/regular/${dex.thumbnail}.png`)
     defense.setThumbnail(`attachment://${dex.thumbnail}.png`);
-  }
-  // if the user types a nonsense word, then exit, "none" is used internally so it appears on the table, but it still needs to be filtered out
-  else if (!t1 || args[0].toLowerCase() == "none") {
-    message.reply(`Zrt? **${args[0]}** izzz not a type!`);
-    return;
-  }
-  // if the first word is valid but the second one is not or is "none", then exit
-  else if (!t2 || (args.length == 2 && args[1].toLowerCase() == "none")) {
-    message.reply(`Zrt? **${args[1]}** izzz not a type!`);
-    return;
   }
   // if the user types the same type twice, then only use one of them since this does not exist
   if (args[0] == args[1]) {
@@ -71,8 +83,6 @@ exports.run = async (client, message, args) => {
     let type2 = client.typedex.getProp(args[1].toLowerCase(),"defense");
     // get color of primary type
     let color = client.typedex.getProp(args[0].toLowerCase(),"color");
-    //const emoji_1 = client.emojis.find("name", `${args[0].toLowerCase()}type`);
-    //const emoji_2 = client.emojis.find("name", `${args[1].toLowerCase()}type`);
     defense.setColor(color);
     if (!pkmn) {
       defense.attachFile(`./assets/types/dual/${args[0].toLowerCase()}${args[1].toLowerCase()}.png`);

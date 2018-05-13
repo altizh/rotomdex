@@ -1,3 +1,5 @@
+const Dictionary = require("meant")
+
 module.exports = (client) => {
 
   client.getGuildSettings = (guild) => {
@@ -54,6 +56,34 @@ module.exports = (client) => {
     }
     delete require.cache[require.resolve(`../commands/${commandName}.js`)];
     return false;
+  };
+
+  client.spellCheck = async (message, search, dex, dictionary, category) => {
+    // basically a "did you mean" implementation
+    const result = Dictionary(search, dictionary.keyArray());
+    const emoji = client.emojis.find("name", "rotomdex");
+    client.logger.spellcheck("--------------")
+    client.logger.spellcheck("User typed: " + search);
+    client.logger.spellcheck("Suggested result: " + result);
+    // if they typed gibberish, odds are there are no results
+    if (result.length == 0) {
+      message.channel.send(`${emoji} Zzzzzrt? Does not compute! Did you spell it correctly?`);
+      return false;
+    }
+    // if the user was close, the bot will ask if the user meant the suggested pokemon
+    else {
+      // the bot will wait for a y/n response so the user doesn't have to search again if the bot guessed correctly
+      const response = await client.awaitReply(message, `${emoji} Zzzzzrt? I can't seem to find that ${category}! Were you looking for \`${dex.getProp(dictionary.get(result[0]),"name")}\`?`);
+      if (["y", "yes"].includes(response.toLowerCase())) {
+        return dictionary.get(result[0]);
+      }
+      // if the user says no, then the bot will exit and the user unfortunately has to search again
+      else if (["n","no"].includes(response.toLowerCase())) {
+        message.reply(`OK, just let me know what you're looking for!`);
+        return false;
+      }
+      else return false;
+    }
   };
 
   // <String>.toProperCase() returns a proper-cased string such as:
