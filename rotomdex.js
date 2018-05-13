@@ -7,6 +7,7 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const Provider = require("enmap-sqlite");
+const EnmapPGSql = require("enmap-pgsql");
 
 // Bot
 const client = new Discord.Client();
@@ -20,13 +21,15 @@ require("./modules/functions.js")(client);
 client.commands = new Enmap();
 client.aliases = new Enmap();
 client.test = new Enmap({provider: new Provider({name: "test"})});
-client.settings = new Enmap({provider: new Provider({name: "settings"})});
 client.script = new Enmap ({provider: new Provider({name: "script"})});
 client.pokedex_lookup = new Enmap({provider: new Provider({name: "pokedex_lookup"})});
 client.pokedex = new Enmap({provider: new Provider({name: "pokedex"})});
 client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
 client.abilitydex_lookup = new Enmap({provider: new Provider({name: "abilitydex_lookup"})});
 client.abilitydex = new Enmap({provider: new Provider({name: "abilitydex"})});
+
+//client.settings = new Enmap({provider: new Provider({name: "settings"})});
+client.settings = new Enmap({provider: new EnmapPGSql({name: "settings", connectionString: process.env.DATABASE_URL})});
 
 const init = async () => {
 

@@ -16,6 +16,7 @@
     "chalk": "^2.4.1",
     "discord.js": "^11.3.2",
     "enmap": "^2.2.1",
+    "enmap-pgsql": "^2.0.0",
     "enmap-sqlite": "^2.0.0",
     "meant": "^1.0.1",
     "moment": "^2.22.1",
