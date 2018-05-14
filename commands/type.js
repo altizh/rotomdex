@@ -3,9 +3,13 @@ const Dictionary = require("meant")
 
 exports.run = async (client, message, args) => {
 
+  // empty argument or "help"
+  if (args.length == 0) return message.reply("you didn't give me a type to look up!");
+  if (args[0].toLowerCase() == "help" && args.length == 1) return client.commands.get("help").run(client, message, ["type"]);
+
   let search = args.join(" ").toLowerCase();
   if (args.length == 1) {
-    args = search.split(/[\/, -]+/g);
+    args = search.split(/[\/\\\|\,\ \-\–\−\—\_\;\:]+/g);
   }
 
   // arrays for each type effectiveness category
@@ -171,11 +175,14 @@ exports.run = async (client, message, args) => {
 exports.conf = {
   enabled: true,
   aliases: [],
+  hidden: false
 };
 
 exports.help = {
   name: "type",
-  category: "Miscellaneous",
-  description: "Look up type effectiveness for up to two types or a Pokémon!",
-  usage: "type <type 1 or Pokémon> <type 2>"
+  category: "Pokédex",
+  short_desc: "Look up type efficacy for up to two types or a Pokémon.",
+  long_desc: "Look up the effectiveness of a single Pokémon or up to two types (separated by a comma, slash, dash, or space) . Looking up a single type will give you offensive effectiveness as well.",
+  usage: "type <Pokémon or Type 1> <Type 2>",
+  examples: ["type rotomheat", "type electric", "type electric ghost", "type electric/water"]
 };

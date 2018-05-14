@@ -2,6 +2,10 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, shiny) => {
 
+  // empty argument or "help"
+  if (args.length == 0) return message.reply("you didn't give me a Pokémon to look up!");
+  if (args[0].toLowerCase() == "help" && args.length == 1) return client.commands.get("help").run(client, message, ["dex"]);
+
   // default is not shiny
   if(!shiny) shiny = 0;
   // random gen 6/7 full shiny odds, so if a user just searches for a regular pokemon they have a 1/4096 odds to get a shiny result, just a fun nod to the games
@@ -19,14 +23,14 @@ exports.run = async (client, message, args, shiny) => {
     args.shift();
   }
 
-  let search = args.join(" ").toLowerCase();
 
   // retrieve pokemon name
+  let search = args.join(" ").toLowerCase();
   let pkmn = client.pokedex_lookup.get(search);
   // get the emoji
   const emoji = client.emojis.find("name", "rotomdex");
 
-  // if the name is not a real pokemon,
+  // if no pokemon, then there was likely a typo, rotomdex will suggest the next closest option
   if (!pkmn) {
     pkmn = await client.spellCheck(message, search, client.pokedex, client.pokedex_lookup, "Pokémon");
     if(!pkmn) return;
@@ -90,11 +94,14 @@ exports.run = async (client, message, args, shiny) => {
 exports.conf = {
   enabled: true,
   aliases: ["d"],
+  hidden: false
 };
 
 exports.help = {
   name: "dex",
-  category: "Miscellaneous",
-  description: "Zzzzrrt! Look up data on any pokémon!",
-  usage: "dex <Pokémon>"
+  category: "Pokédex",
+  short_desc: "Look up data on any Pokémon.",
+  long_desc: "Look up the Pokédex data (dex entry, height, weight, etc.) on any Pokémon. Preceding the Pokémon with `shiny` will give you a shiny result.",
+  usage: "dex <Pokémon>",
+  examples: ["dex wash rotom", "dex shiny rotom-f"]
 };

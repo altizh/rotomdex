@@ -14,11 +14,14 @@ exports.run = async (client, message, args) => {// eslint-disable-line no-unused
 exports.conf = {
   enabled: true,
   aliases: [],
+  hidden: true
 };
 
 exports.help = {
   name: "reload",
   category: "System",
-  description: "Reloads a command that has been modified.",
-  usage: "reload [command]"
+  short_desc: "Reloads a command that has been modified.",
+  long_desc: "Reloads a command that has been modified.",
+  usage: "reload [command]",
+  examples: ["reload ability"]
 };

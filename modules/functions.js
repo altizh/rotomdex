@@ -2,6 +2,7 @@ const Dictionary = require("meant")
 
 module.exports = (client) => {
 
+  // getting per-guild settings (currently just prefix)
   client.getGuildSettings = (guild) => {
     const def = client.config.defaultSettings;
     if (!guild) return def;
@@ -13,6 +14,7 @@ module.exports = (client) => {
     return returns;
   };
 
+  // await reply function
   client.awaitReply = async (msg, question, limit = 30000) => {
     const filter = m => m.author.id === msg.author.id;
     await msg.channel.send(question);
@@ -25,6 +27,7 @@ module.exports = (client) => {
     }
   };
 
+  // load command called on bot start
   client.loadCommand = (commandName) => {
     try {
       const props = require(`../commands/${commandName}`);
@@ -42,6 +45,7 @@ module.exports = (client) => {
     }
   };
 
+  // unload command called during reload
   client.unloadCommand = async (commandName) => {
     let command;
     if (client.commands.has(commandName)) {
@@ -58,6 +62,7 @@ module.exports = (client) => {
     return false;
   };
 
+  // generic spellcheck function that cross references the lookup dictionaries
   client.spellCheck = async (message, search, dex, dictionary, category) => {
     // basically a "did you mean" implementation
     const result = Dictionary(search, dictionary.keyArray());
@@ -70,14 +75,14 @@ module.exports = (client) => {
       message.channel.send(`${emoji} Zzzzzrt? Does not compute! Did you spell it correctly?`);
       return false;
     }
-    // if the user was close, the bot will ask if the user meant the suggested pokemon
+    // if the user was close, the bot will ask if the user meant the closest match
     else {
       // the bot will wait for a y/n response so the user doesn't have to search again if the bot guessed correctly
       const response = await client.awaitReply(message, `${emoji} Zzzzzrt? I can't seem to find that ${category}! Were you looking for \`${dex.getProp(dictionary.get(result[0]),"name")}\`?`);
       if (["y", "yes"].includes(response.toLowerCase())) {
         return dictionary.get(result[0]);
       }
-      // if the user says no, then the bot will exit and the user unfortunately has to search again
+      // if the user says no, then the bot will exit and the user will unfortunately have to search again
       else if (["n","no"].includes(response.toLowerCase())) {
         message.reply(`OK, just let me know what you're looking for!`);
         return false;
@@ -86,18 +91,17 @@ module.exports = (client) => {
     }
   };
 
-  // <String>.toProperCase() returns a proper-cased string such as:
-  // "Mary had a little lamb".toProperCase() returns "Mary Had A Little Lamb"
+  // returns the string in "Proper Case"
   String.prototype.toProperCase = function() {
     return this.replace(/([^\W_]+[^\s-]*) */g, function(txt) {return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   };
 
-  // <Array>.random() returns a single random element from an array
-  // [1, 2, 3, 4, 5].random() can return 1, 2, 3, 4 or 5.
+  // returns a random element in the array
   Array.prototype.random = function() {
     return this[Math.floor(Math.random() * this.length)]
   };
 
+  // error catching/handling
   process.on("uncaughtException", (err) => {
     const errorMsg = err.stack.replace(new RegExp(`${__dirname}/`, "g"), "./");
     client.logger.error(`Uncaught Exception: ${errorMsg}`);

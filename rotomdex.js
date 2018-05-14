@@ -16,10 +16,14 @@ const client = new Discord.Client();
 client.config = require("./config.js");
 client.logger = require("./util/Logger");
 
+// functions
 require("./modules/functions.js")(client);
 
+// commands
 client.commands = new Enmap();
 client.aliases = new Enmap();
+
+// all the databases
 client.test = new Enmap({provider: new Provider({name: "test"})});
 client.script = new Enmap ({provider: new Provider({name: "script"})});
 client.pokedex_lookup = new Enmap({provider: new Provider({name: "pokedex_lookup"})});
@@ -28,6 +32,7 @@ client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
 client.abilitydex_lookup = new Enmap({provider: new Provider({name: "abilitydex_lookup"})});
 client.abilitydex = new Enmap({provider: new Provider({name: "abilitydex"})});
 
+// per-server settings
 //client.settings = new Enmap({provider: new Provider({name: "settings"})});
 client.settings = new Enmap({provider: new EnmapPGSql({name: "settings", connectionString: process.env.DATABASE_URL})});
 
