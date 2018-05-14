@@ -35,7 +35,7 @@ exports.run = async (client, message, args) => {
     //if (["y", "yes"].includes(response.toLowerCase())) {
       if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
       client.settings.setProp(message.guild.id, "prefix", new_prefix);
-      message.reply(`the prefix was successfully changed to ${new_prefix}`);
+      message.reply(`the prefix was successfully changed to \`${new_prefix}\``);
     //}
     //else if (["n","no","cancel"].includes(response)) {
       //message.reply("the prefix was not changed.");
