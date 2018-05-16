@@ -63,8 +63,8 @@ exports.run = async (client, message, args) => {
     embed.setImage(`https://raw.githubusercontent.com/msikma/pokesprite/master/icons/z-crystals/${move.z_crystal}-bag.png`);
   }
 
-  embed.attachFile(`./assets/moves/${move.type}${move.category}.png`);
-  embed.setThumbnail(`attachment://${move.type}${move.category}.png`);
+  embed.attachFile(`./assets/moves/${move.type.toLowerCase()}${move.category.toLowerCase()}.png`);
+  embed.setThumbnail(`attachment://${move.type.toLowerCase()}${move.category.toLowerCase()}.png`);
   message.channel.send(embed);
 };
 
