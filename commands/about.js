@@ -10,9 +10,9 @@ exports.run = (client, message, args) => {
 `Hey, it'zzz Rotom!
 I found my way into the Pokémon Bank serverzzz
 and now I have access to the full National Dex!\n
-Need help? Just say \`${message.settings.prefix}help\` to get a list of commands.
-If you like me, [invite me to another server!](${client.config.inviteURL})`)
-  embed.setFooter(`Rotom Dex v${package.version} | discord.js`)
+Say \`${message.settings.prefix}help\` to get a list of commandzzz!
+If you like me, [invite me to another server.](${client.config.inviteURL})`)
+  embed.setFooter(`Rotom Dex v${package.version} | discord.js | by kudda`)
   embed.attachFile(`./assets/rotomdex2.png`);
   embed.setThumbnail(`attachment://rotomdex2.png`);
   embed.setColor(13711930);

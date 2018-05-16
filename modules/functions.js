@@ -22,7 +22,6 @@ module.exports = (client) => {
       const collected = await msg.channel.awaitMessages(filter, { max: 1, time: limit, errors: ["time"] });
       return collected.first().content;
     } catch (e) {
-      return "timeout";
       return false;
     }
   };
@@ -79,11 +78,11 @@ module.exports = (client) => {
     else {
       // the bot will wait for a y/n response so the user doesn't have to search again if the bot guessed correctly
       const response = await client.awaitReply(message, `${emoji} Zzzzzrt? I can't seem to find that ${category}! Were you looking for \`${dex.getProp(dictionary.get(result[0]),"name")}\`?`);
-      if (["y", "yes"].includes(response.toLowerCase())) {
+      if (["y", "yes", "yea", "yeah", "yuh", "yep"].includes(response.toLowerCase())) {
         return dictionary.get(result[0]);
       }
       // if the user says no, then the bot will exit and the user will unfortunately have to search again
-      else if (["n","no"].includes(response.toLowerCase())) {
+      else if (["n","no","nope","nuh","negative"].includes(response.toLowerCase())) {
         message.reply(`OK, just let me know what you're looking for!`);
         return false;
       }

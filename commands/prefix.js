@@ -7,7 +7,7 @@ exports.run = async (client, message, args) => {
 
   // empty argument or "help"
   if (args.length == 0) return message.reply(`the current prefix is \`${settings["prefix"]}\``);
-  if (args[0].toLowerCase() == "help" && args.length == 1) return client.commands.get("help").run(client, message, ["prefix"]);
+  if (args.length == 1 && args[0].toLowerCase() == "help") return client.commands.get("help").run(client, message, ["prefix"]);
 
   if (!message.member.hasPermission("MANAGE_GUILD")) return message.reply("you aren't authorizzzed to change the prefix!");
 
@@ -19,19 +19,19 @@ exports.run = async (client, message, args) => {
 
   if(new_prefix == "reset") {
     if (settings["prefix"] === client.config.defaultSettings.prefix) return message.reply("this is already the default prefix!");
-    const response = await client.awaitReply(message, `Reset the prefix back to \`${client.config.defaultSettings.prefix}\`? [Y/N]`);
-    if (["y", "yes"].includes(response.toLowerCase())) {
+    const response = await client.awaitReply(message, `Reset the prefix back to \`${client.config.defaultSettings.prefix}\`?`);
+    if (["y","yes","yea","yeah","yuh","yep"].includes(response.toLowerCase())) {
       delete overrides["prefix"];
       client.settings.set(message.guild.id, overrides);
       message.reply(`the prefix was successfully reset back to \`${client.config.defaultSettings.prefix}\`.`);
     }
-    else if (["n","no","cancel"].includes(response)) {
+    else if (["n","no","nope","nuh","negative","cancel"].includes(response)) {
       message.reply("the prefix was not reset.");
     }
   }
   else {
     if (new_prefix === settings["prefix"]) return message.reply("this is already the prefix!");
-    //const response = await client.awaitReply(message, `Confirm change the prefix to \`${new_prefix}\`? [Y/N]`);
+    //const response = await client.awaitReply(message, `Confirm change the prefix to \`${new_prefix}\`?`);
     //if (["y", "yes"].includes(response.toLowerCase())) {
       if (!client.settings.has(message.guild.id)) client.settings.set(message.guild.id, {});
       client.settings.setProp(message.guild.id, "prefix", new_prefix);

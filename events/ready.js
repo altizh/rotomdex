@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-exports.run = (client) => {
+module.exports = async client => {
 
   client.user.setPresence({game: {name: 'Alolan Detective Laki', type:'WATCHING'}, status: 'online'});
 

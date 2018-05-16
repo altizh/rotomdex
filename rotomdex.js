@@ -24,13 +24,24 @@ client.commands = new Enmap();
 client.aliases = new Enmap();
 
 // all the databases
+// testing new functions
 client.test = new Enmap({provider: new Provider({name: "test"})});
+// rotom's script of responses
 client.script = new Enmap ({provider: new Provider({name: "script"})});
+// pokedex dictionary and metadata
 client.pokedex_lookup = new Enmap({provider: new Provider({name: "pokedex_lookup"})});
 client.pokedex = new Enmap({provider: new Provider({name: "pokedex"})});
-client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
+// ability dictionary and metadata
 client.abilitydex_lookup = new Enmap({provider: new Provider({name: "abilitydex_lookup"})});
 client.abilitydex = new Enmap({provider: new Provider({name: "abilitydex"})});
+// move dictionary and metadata
+client.movedex_lookup = new Enmap({provider: new Provider({name: "movedex_lookup"})});
+client.movedex = new Enmap({provider: new Provider({name: "movedex"})});
+// item dictionary and metadata
+client.itemdex_lookup = new Enmap({provider: new Provider({name: "itemdex_lookup"})});
+client.itemdex = new Enmap({provider: new Provider({name: "itemdex"})});
+// type metadata (no need for dictionary since there are only 18 types with no spelling confusion... hopefully)
+client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
 
 // per-server settings
 //client.settings = new Enmap({provider: new Provider({name: "settings"})});
@@ -53,7 +64,7 @@ const init = async () => {
   evtFiles.forEach(file => {
     const eventName = file.split(".")[0];
     const event = require(`./events/${file}`);
-    client.on(eventName, (...args) => event.run(client, ...args));
+    client.on(eventName, event.bind(null, client));
     delete require.cache[require.resolve(`./events/${file}`)];
   });
 
