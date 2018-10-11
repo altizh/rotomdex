@@ -44,7 +44,6 @@ client.itemdex = new Enmap({provider: new Provider({name: "itemdex"})});
 client.typedex = new Enmap({provider: new Provider({name: "typedex"})});
 
 // per-server settings
-//client.settings = new Enmap({provider: new Provider({name: "settings"})});
 client.settings = new Enmap({provider: new EnmapPGSql({name: "settings", connectionString: process.env.DATABASE_URL})});
 
 const init = async () => {

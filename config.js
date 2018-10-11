@@ -1,9 +1,9 @@
 const config = {
-  "ownerID": "142501740212649984",
-  "botID": "444302804442677248",
-  "testGuildID" : "499809422521008139",
+  "ownerID": process.env.OWNER_ID,
+  "botID": process.env.BOT_ID,
+  "testGuildID" : process.env.TEST_GUILD_ID,
   "token": process.env.TOKEN,
-  "inviteURL": "https://discordapp.com/oauth2/authorize?client_id=431591392087638017&scope=bot&permissions=67488832",
+  "inviteURL": process.env.INVITE_URL,
   "defaultSettings" : {
     "prefix": "r.",
   },
