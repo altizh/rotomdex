@@ -3,7 +3,7 @@ const config = {
   "botID": "444302804442677248",
   "testGuildID" : "499809422521008139",
   "token": process.env.TOKEN,
-  "inviteURL": "https://discordapp.com/oauth2/authorize?client_id=444302804442677248&permissions=67488832&scope=bot",
+  "inviteURL": "https://discordapp.com/oauth2/authorize?client_id=431591392087638017&scope=bot&permissions=67488832",
   "defaultSettings" : {
     "prefix": "r.",
   },
