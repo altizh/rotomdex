@@ -1,6 +1,6 @@
 {
   "name": "rotomdex",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pokémon information from your friendly Rotom Dex!",
   "main": "rotomdex.js",
   "scripts": {
