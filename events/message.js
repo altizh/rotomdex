@@ -1,7 +1,7 @@
 module.exports = (client, message) => {
 
   // filter out bot messages
-  if (message.author.bot) return;
+  if (message.author.bot && message.guild.id != client.config.testGuildID) return;
 
   // retrieve server settings (currently just the prefix)
   const settings = message.settings = client.getGuildSettings(message.guild);

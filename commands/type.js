@@ -25,6 +25,8 @@ exports.run = async (client, message, args) => {
   const defense = new Discord.RichEmbed();
   const attack = new Discord.RichEmbed();
 
+  const emoji = client.emojis.find("name", "rotomdex");
+
   var title = "";
   // if the user only requests a single type, then rotomdex will return attacking and defending efficacies
   var single_type = 0;
@@ -82,7 +84,30 @@ exports.run = async (client, message, args) => {
   if (pokemon_search) {
     let pokemon = client.pokedex.get(pokemon_search);
     args = [`${pokemon.type1}`,`${pokemon.type2}`];
-    title = `—\n**${pokemon.name}** - ${pokemon.type}`;
+    //title = `—\n**${pokemon.name}** - ${pokemon.type}`;
+    var title = `—\n${emoji} ` + client.script.get("dex").random();
+    if (pokemon.name == "Rotom" || pokemon.name == "Heat Rotom" || pokemon.name == "Wash Rotom" || pokemon.name == "Frost Rotom" || pokemon.name == "Fan Rotom" || pokemon.name == "Mow Rotom") {
+      title = `—\n${emoji} Hey it'zzz me!`;
+    }
+    if (pokemon.name == "Tapu Koko" || pokemon.name == "Tape Lele" || pokemon.name == "Tapu Bulu" || pokemon.name == "Tapu Fini") {
+      title = `—\n${emoji} Zzzrt! It'zzz a Guardian Deity!`;
+    }
+    if (pokemon.name == "Type: Null" || pokemon.name == "Silvally") {
+      title = `—\n${emoji} Zzzrt?! This Pokémon... I don’t even know how to describe it... But my circuitzzz are tingling!`;
+    }
+    if (pokemon.legendary) {
+      title = `—\n${emoji} Zzzrt! It'zzz a Legendary Pokémon! Let'zzz check it out!`;
+    }
+    if (pokemon.mythical) {
+      title = `—\n${emoji} Zzzrk?! Wait... Izzz that— Izzz that a Mythical Pokémon?!`;
+    }
+    if (pokemon.ub) {
+      title = `—\n${emoji} Zzzrt?! It'zzz an unidentified Pokémon! Go check it out quick!`;
+    }
+    // memes
+    if (arg_str == "tho") {
+      title = `—\n${emoji} Diggerzzzby tho?`
+    }
     defense.addField(`#${pokemon.dex_entry.dex_num} - ${pokemon.name}`,`${pokemon.type}\n—`);
     defense.attachFile(`./assets/sprites/regular/${pokemon.thumbnail}.png`)
     defense.setThumbnail(`attachment://${pokemon.thumbnail}.png`);
@@ -91,10 +116,11 @@ exports.run = async (client, message, args) => {
   else if (move_search) {
     let move = client.movedex.get(move_search);
     args = [`${move.type}`];
-    title = `—\n**${move.name}** - ${move.type}`;
+    //title = `—\n**${move.name}** - ${move.type}`;
+    title = `—\n${emoji} Hey! That'zzzz a powerful move!`;
     attack.addField(`${move.name}`, `—`);
-    if (move.name == "Flying Press") attack.setFooter(`※ Flying Press is Fighting and Flying type simultaneously`);
-    if (move.name == "Freeze-Dry") attack.setFooter(`※ Freeze-Dry is super effective on Water-type Pokémon`)
+    if (move.name == "Flying Press") attack.setFooter(`※ Flying Press is Fighting-type and Flying-type simultaneously`);
+    if (move.name == "Freeze-Dry") attack.setFooter(`※ Freeze-Dry is super effective on Water-type Pokémon`);
     move_type = 1;
   }
 
@@ -115,7 +141,8 @@ exports.run = async (client, message, args) => {
       defense.setThumbnail(`attachment://${args[0].toLowerCase()}${args[1].toLowerCase()}.png`);
     }
 
-    if (title == "") title = `—\n**${client.typedex.getProp(args[0].toLowerCase(),"name")}/${client.typedex.getProp(args[1].toLowerCase(),"name")}**`;
+    //if (title == "") title = `—\n**${client.typedex.getProp(args[0].toLowerCase(),"name")}/${client.typedex.getProp(args[1].toLowerCase(),"name")}**`;
+    if (title == "") title = `—\n${emoji} Here'zzz the info on the **${client.typedex.getProp(args[0].toLowerCase(),"name")}/${client.typedex.getProp(args[1].toLowerCase(),"name")}** type!`;
 
     // disclaimers for pokemon that have potential immunities from their abilities
     if (pokemon && pokemon.ability_array.length > 1) {
@@ -172,8 +199,8 @@ exports.run = async (client, message, args) => {
     attack.setColor(color);
     attack.attachFile(`./assets/types/single/${args[0].toLowerCase()}.png`);
     attack.setThumbnail(`attachment://${args[0].toLowerCase()}.png`);
-    //const emoji = client.emojis.find("name", `${args[0].toLowerCase()}type`);
-    if (title == "") title = `—\n**${client.typedex.getProp(args[0].toLowerCase(),"name")}**`;
+    //if (title == "") title = `—\n**${client.typedex.getProp(args[0].toLowerCase(),"name")}**`;
+    if (title == "") title = `—\n${emoji} Here'zzz the info on the **${client.typedex.getProp(args[0].toLowerCase(),"name")}** type`;
     // first populate the defensive arrays, if looking up a move, skip this
     if (!move_type) {
       let type_def = client.typedex.getProp(args[0].toLowerCase(),"defense");
@@ -236,9 +263,9 @@ exports.run = async (client, message, args) => {
 
   // dual type just sends a single embed while single type sends the defense and offense embed
   if (single_type && !move_type) {
-    message.channel.send(`${title} - When Defending`,defense);
+    message.channel.send(`${title} when defending!`,defense);
     // add timeout to make sure defense comes first
-    setTimeout(() => {message.channel.send(`${title} - When Attacking`,attack)}, 300);
+    setTimeout(() => {message.channel.send(`${title} when attacking!`,attack)}, 300);
   }
   else if (move_type) message.channel.send(`${title}`,attack);
   else message.channel.send(`${title}`,defense);

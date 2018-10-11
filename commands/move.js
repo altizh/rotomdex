@@ -20,7 +20,7 @@ exports.run = async (client, message, args) => {
   let move_search = client.movedex_lookup.get(arg_str);
   // get the emoji
   const emoji = client.emojis.find("name", "rotomdex");
-  var title = `—\n`;
+  var title = `—\n${emoji} Hey! That'zzzz a powerful move!`;
 
   // if no move, then there was likely a typo, rotomdex will suggest the next closest option
   if (!move_search) {
@@ -39,7 +39,7 @@ exports.run = async (client, message, args) => {
     if (move.name == "Extreme Evoboost") embed.setDescription(`${move.flavor_text}\n\n**Effect**: ${move.z_effect}\n\n**Z-Crystal**: ${move.z_crystal.replace("-"," ").toProperCase()}`);
     else if (move.category == "undefined") embed.setDescription(`${move.flavor_text}\n\n**Z-Crystal**: ${move.z_crystal.replace("-"," ").toProperCase()}\t\t\t**Power**: ${move.power}\t\t\t**Category**: Varies`);
     else embed.setDescription(`${move.flavor_text}\n\n**Z-Crystal**: ${move.z_crystal.replace("-"," ").toProperCase()}\t\t\t**Power**: ${move.power}`);
-    embed.setImage(`https://raw.githubusercontent.com/msikma/pokesprite/master/icons/z-crystals/${move.z_crystal}-bag.png`);
+    embed.setImage(`https://raw.githubusercontent.com/msikma/pokesprite/master/icons/z-crystals/${move.z_crystal}--bag.png`);
   }
   else if(!z_flag) {
     embed.setAuthor(`${move.name}`);
@@ -60,12 +60,12 @@ exports.run = async (client, message, args) => {
       embed.setAuthor(`${z_move.name} (from ${move.name})`)
       embed.setDescription(`${z_move.flavor_text.slice(0,-50)}\n\n**Z-Crystal**: ${move.z_crystal.replace("-"," ").toProperCase()}\t\t\t**Power**: ${move.z_effect}`);
     }
-    embed.setImage(`https://raw.githubusercontent.com/msikma/pokesprite/master/icons/z-crystals/${move.z_crystal}-bag.png`);
+    embed.setImage(`https://raw.githubusercontent.com/msikma/pokesprite/master/icons/z-crystals/${move.z_crystal}--bag.png`);
   }
 
   embed.attachFile(`./assets/moves/${move.type.toLowerCase()}${move.category.toLowerCase()}.png`);
   embed.setThumbnail(`attachment://${move.type.toLowerCase()}${move.category.toLowerCase()}.png`);
-  message.channel.send(embed);
+  message.channel.send(title, embed);
 };
 
 exports.conf = {
