@@ -112,7 +112,7 @@ exports.conf = {
 exports.help = {
   name: "data",
   category: "Pokédex",
-  short_desc: "Look up game data on any Pokémon",
+  short_desc: "Look up game data on any Pokémon.",
   long_desc: "Look up the game data (stats, abilities) on any Pokémon.",
   usage: "data <Pokémon>",
   examples: ["data rotom-w"]
