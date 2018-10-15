@@ -44,24 +44,35 @@ exports.run = async (client, message, args, shiny) => {
   const embed = new Discord.RichEmbed()
     //regular vs. shiny has some slight differences, most noticably the sprites
     if(!shiny) {
-      embed.setAuthor(`#${pokemon.dex_entry.dex_num} - ${pokemon.name}`);
-      embed.setDescription(`*${pokemon.dex_entry.category} Pokémon*`);
-      embed.setImage(`https://play.pokemonshowdown.com/sprites/xyani/${pokemon.regular_gif}.gif`);
+      embed.setAuthor(`${pokemon.name}`);
+      //embed.setDescription(`*${pokemon.dex_entry.category} Pokémon*`);
+      //embed.setImage(`https://play.pokemonshowdown.com/sprites/xyani/${pokemon.regular_gif}.gif`);
       embed.attachFile(`./assets/sprites/regular/${pokemon.thumbnail}.png`);
       embed.setThumbnail(`attachment://${pokemon.thumbnail}.png`);
     }
     else {
-      embed.setAuthor(`#${pokemon.dex_entry.dex_num} - ✧ Shiny ${pokemon.name} ✧`);
-      embed.setDescription(`*${pokemon.dex_entry.category} Pokémon*`);
-      embed.setImage(`https://play.pokemonshowdown.com/sprites/xyani-shiny/${pokemon.shiny_gif}.gif`);
+      embed.setAuthor(`✧ Shiny ${pokemon.name} ✧`);
+      //embed.setDescription(`*${pokemon.dex_entry.category} Pokémon*`);
+      //embed.setImage(`https://play.pokemonshowdown.com/sprites/xyani-shiny/${pokemon.shiny_gif}.gif`);
       embed.attachFile(`./assets/sprites/shiny/${pokemon.thumbnail}.png`);
       embed.setThumbnail(`attachment://${pokemon.thumbnail}.png`);
     }
     // metadata that is the same between regular and shiny pokemon
-    embed.addField("Type",`${pokemon.type}`)
-    embed.addField("Height",`${pokemon.height.m} (${pokemon.height.ft})`,true)
-    embed.addField("Weight",`${pokemon.weight.kg} (${pokemon.weight.lbs})`,true)
-    embed.addField("Description",`${pokemon.dex_entry.flavor_text} *(${pokemon.dex_entry.src})*`)
+    //embed.addField("Type",`${pokemon.type}`)
+    //embed.addField("Height",`${pokemon.height.m} (${pokemon.height.ft})`,true)
+    //embed.addField("Weight",`${pokemon.weight.kg} (${pokemon.weight.lbs})`,true)
+    //embed.addField("Description",`${pokemon.dex_entry.flavor_text} *(${pokemon.dex_entry.src})*`)
+
+    //embed.addField("HP",`${pokemon.base_stats.hp}`)
+    //embed.addField("Atk",`${pokemon.base_stats.atk}`)
+    //embed.addField("Def",`${pokemon.base_stats.def}`)
+    //embed.addField("SpA",`${pokemon.base_stats.spa}`)
+    //embed.addField("SpD",`${pokemon.base_stats.spd}`)
+    //embed.addField("Spe",`${pokemon.base_stats.spe}`)
+
+    embed.addField("Abilities",`${pokemon.abilities}`);
+    embed.addField("Base Stats",`**HP**: ${pokemon.base_stats.hp}\t|\t**Atk**: ${pokemon.base_stats.atk}\t|\t**Def**: ${pokemon.base_stats.def}\t|\t**SpA**: ${pokemon.base_stats.spa}\t|\t**SpD**: ${pokemon.base_stats.spd}\t|\t**Spe**: ${pokemon.base_stats.spe}\t|\t**Total**: ${pokemon.base_stats.tot}`);
+
     embed.setColor(13711930);
 
   // cycle through some scripts to introduce some personality, certain flags will always trigger the same phrases (i.e. legendary)
@@ -94,15 +105,15 @@ exports.run = async (client, message, args, shiny) => {
 
 exports.conf = {
   enabled: true,
-  aliases: ["d"],
+  aliases: [],
   hidden: false
 };
 
 exports.help = {
-  name: "dex",
-  category: "Pokédex",
-  short_desc: "Look up the dex entry on any Pokémon.",
-  long_desc: "Look up the Pokédex data (dex entry, height, weight, etc.) on any Pokémon. Preceding the Pokémon with `shiny` will give you a shiny result.",
-  usage: "dex <Pokémon>",
-  examples: ["dex wash rotom", "dex shiny rotom-f"]
+  name: "data",
+  category: "System",
+  short_desc: "Look up game data on any Pokémon",
+  long_desc: "Look up the game data (stats, abilities) on any Pokémon.",
+  usage: "data <Pokémon>",
+  examples: ["data rotom-w"]
 };

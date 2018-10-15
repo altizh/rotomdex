@@ -42,7 +42,7 @@ exports.conf = {
 exports.help = {
   name: "item",
   category: "Pokédex",
-  short_desc: "Look up data on any item.",
+  short_desc: "Look up any item.",
   long_desc: "Look up description and thumbnail of any item.",
   usage: "item <Item>",
   examples: ["item magnet", "item leftovers"]

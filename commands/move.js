@@ -77,7 +77,7 @@ exports.conf = {
 exports.help = {
   name: "move",
   category: "Pokédex",
-  short_desc: "Look up data on any move.",
+  short_desc: "Look up any move.",
   long_desc: "Look up the move data (PP, power, accuracy, etc.) on any move. Preceding the move with `z` will give you the Z-move details.",
   usage: "move <Move>",
   examples: ["move thunderbolt", "move z willowisp"]
