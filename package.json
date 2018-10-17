@@ -10,7 +10,7 @@
   "engines": {
     "node": "8.11.1"
   },
-  "author": "kudda",
+  "author": "atz",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "chalk": "^2.4.1",
